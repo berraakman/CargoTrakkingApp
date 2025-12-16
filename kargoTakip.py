@@ -13,9 +13,9 @@ import os
 # DİKKAT: SABİT DOSYA YOLU ATAMASI
 # Lütfen bu 3 satırı, Mac'inizdeki CSV dosyalarının TAM YOLU ile değiştirin.
 # =========================================================================
-CSV_LOGLARI = '/Users/berra/Desktop/bilgi sistem proje/kargo_loglari.csv'
-CSV_KULLANICILAR = '/Users/berra/Desktop/bilgi sistem proje/kullanicilar.csv'
-CSV_KARGOLAR_ANA = '/Users/berra/Desktop/bilgi sistem proje/kargolar_ana.csv'
+CSV_LOGLARI = '/Users/berra/Desktop/CARGOTRAKKINGAPP/kargo_loglari.csv'
+CSV_KULLANICILAR = '/Users/berra/Desktop/CARGOTRAKKINGAPP/kullanicilar.csv'
+CSV_KARGOLAR_ANA = '/Users/berra/Desktop/CARGOTRAKKINGAPP/kargolar_ana.csv'
 
 # --- 1. CSV Tabanlı Veritabanı Sınıfı (3 Tabloyu Yönetir) ---
 class CargoDatabase:
@@ -385,7 +385,13 @@ class CargoTrackingApp(QMainWindow):
         layout_container.addStretch(1)
         frame = QFrame()
         frame.setLayout(login_layout)
-        frame.setStyleSheet("background-color: #3e4451; border: 1px solid #5a626f; padding: 20px; color: white;") 
+        frame.setStyleSheet(
+            "background-color: #ffffff;"
+            "border: 1px solid #dde1e8;"
+            "border-radius: 15px;"
+            "padding: 25px;"
+            "color: #0a1f44;"
+        )
         
         h_layout = QHBoxLayout()
         h_layout.addStretch(1)
@@ -429,7 +435,6 @@ class CargoTrackingApp(QMainWindow):
         back_button_manager.clicked.connect(self.handle_back_to_login)
         v_layout.addWidget(back_button_manager, alignment=Qt.AlignmentFlag.AlignLeft)
         
-        
         # Kullanıcılar Tablosu (kullanicilar.csv)
         user_frame = QFrame()
         user_frame.setObjectName("ManagerFrame")
@@ -443,7 +448,8 @@ class CargoTrackingApp(QMainWindow):
         self.user_table.setHorizontalHeaderLabels(["Kullanıcı Adı", "Şifre (Simülasyon)", "Rol"])
         self.user_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         user_frame_layout.addWidget(self.user_table)
-        self.user_table.setMinimumWidth(900)
+        self.user_table.setMinimumWidth(1000)
+        self.user_table.setMinimumHeight(200)
         self.user_table.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         
         # Kargo Ana Tablosu (kargolar_ana.csv)
@@ -460,6 +466,7 @@ class CargoTrackingApp(QMainWindow):
         self.kargo_ana_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         kargo_frame_layout.addWidget(self.kargo_ana_table)
         self.kargo_ana_table.setMinimumWidth(900)
+        self.kargo_ana_table.setMinimumHeight(300)
         self.kargo_ana_table.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         
         # Ortalamak için
@@ -471,7 +478,6 @@ class CargoTrackingApp(QMainWindow):
 
         v_layout.addLayout(center_h_layout)
         v_layout.addLayout(center_h_layout2)
-        v_layout.addStretch()
         return panel
 
     def update_manager_panel(self):
@@ -508,7 +514,7 @@ class CargoTrackingApp(QMainWindow):
         main_v_layout.addWidget(back_button_personnel, alignment=Qt.AlignmentFlag.AlignLeft)
 
         layout_label = QLabel("Lütfen kargonun yeni durumunu tarayarak/girerek sisteme kaydediniz.")
-        layout_label.setStyleSheet("color: #f0f0f0;")
+        layout_label.setStyleSheet("color: #3b4a6b;")
         main_v_layout.addWidget(layout_label)
 
         form_frame = QFrame()
@@ -545,7 +551,12 @@ class CargoTrackingApp(QMainWindow):
         main_v_layout.addLayout(center_h_layout)
         main_v_layout.addStretch()
         
-        form_frame.setStyleSheet("background-color: #3e4451; border: 1px solid #5a626f; padding: 20px; border-radius: 15px;")
+        form_frame.setStyleSheet(
+            "background-color: #ffffff;"
+            "border: 1px solid #dde1e8;"
+            "border-radius: 15px;"
+            "padding: 25px;"
+        )
         form_frame.setFixedWidth(500)
         
         return form_widget
@@ -565,83 +576,145 @@ class CargoTrackingApp(QMainWindow):
         self.personnel_takip_input.clear()
         self.personnel_konum_input.clear()
 
-# --- 5. Qt Style Sheet Tanımı (Koyu Tema) ---
-DARK_STYLE_SHEET = """
+
+# --- 5. Qt Style Sheet Tanımı (Açık Tema) ---
+LIGHT_STYLE_SHEET = """
 /* ===============================
-   GENEL ARKA PLAN
+   GENEL ARKA PLAN (AÇIK GRİ)
    =============================== */
 QMainWindow {
-    background-color: qlineargradient(
-        x1:0, y1:0, x2:1, y2:1,
-        stop:0 #1f232b,
-        stop:1 #2c313a
-    );
+    background-color: #f2f3f5;
+}
+
+/* ===============================
+   SEKME SAYFALARI ARKA PLAN
+   =============================== */
+QWidget {
+    background-color: transparent;
+}
+
+QTabWidget::pane {
+    background-color: #f2f3f5;
+}
+
+QTabWidget QWidget {
+    background-color: #f2f3f5; /* sekme içi açık gri */
 }
 
 /* ===============================
    SEKME YAPISI
    =============================== */
 QTabWidget::pane { border: none; background: transparent; }
-QTabBar::tab { background: #3a3f4b; color: #cfd3dc; padding: 12px 20px; border-radius: 8px; margin-right: 6px; }
-QTabBar::tab:selected { 
-    background: qlineargradient( x1:0, y1:0, x2:1, y2:0, stop:0 #00aaff, stop:1 #007bff ); 
-    color: white; font-weight: bold; 
+
+QTabBar::tab {
+    background: #e0e2e6;
+    color: #0a1f44; /* lacivert */
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-right: 6px;
+    font-weight: 600;
 }
-QTabBar::tab:hover { background: #4a5160; }
+
+QTabBar::tab:selected {
+    background: #0a1f44;
+    color: white;
+}
+
+QTabBar::tab:hover {
+    background: #cfd4dc;
+}
 
 /* ===============================
-   BUTONLAR (MODERN)
+   BUTONLAR (BEBEK MAVİSİ)
    =============================== */
 QPushButton {
-    background: qlineargradient( x1:0, y1:0, x2:0, y2:1, stop:0 #00aaff, stop:1 #0066cc );
-    color: white; border: none; border-radius: 10px; padding: 10px 18px; font-weight: 600;
+    background-color: #9fd6ff; /* bebek mavisi */
+    color: #0a1f44;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-weight: 600;
 }
-QPushButton:hover { 
-    background: qlineargradient( x1:0, y1:0, x2:0, y2:1, stop:0 #1ab3ff, stop:1 #007bff ); 
+
+QPushButton:hover {
+    background-color: #6fc2ff; /* hover rengi */
 }
-QPushButton:pressed { background-color: #0056b3; }
+
+QPushButton:pressed {
+    background-color: #4faee8;
+}
 
 /* ===============================
    INPUT & COMBOBOX
    =============================== */
 QLineEdit, QComboBox {
-    background-color: #2b2f3a; color: #eaeaf0; padding: 10px; border-radius: 8px; border: 1px solid #444a5a;
+    background-color: white;
+    color: #0a1f44;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #c7cbd3;
 }
-QLineEdit:focus, QComboBox:focus { border: 1px solid #00aaff; }
+
+QLineEdit:focus, QComboBox:focus {
+    border: 1px solid #6fc2ff;
+}
 
 /* ===============================
    ETİKETLER
    =============================== */
-QLabel { color: #e0e3eb; }
-QLabel h1 { color: white; letter-spacing: 1px; }
-QLabel h4 { color: #9aa1b2; }
+QLabel { color: #0a1f44; }
+
+QLabel h1, QLabel h2, QLabel h3 {
+    color: #0a1f44; /* lacivert başlıklar */
+}
+
+QLabel h4 {
+    color: #3b4a6b;
+}
 
 /* ===============================
    TABLO
    =============================== */
 QTableWidget {
-    background-color: #2b2f3a; alternate-background-color: #323846; color: #eaeaf0; border-radius: 10px; border: none; gridline-color: #444a5a;
+    background-color: white;
+    alternate-background-color: #f2f4f7;
+    color: #0a1f44;
+    border-radius: 10px;
+    border: 1px solid #d5d9e0;
+    gridline-color: #e1e4ea;
 }
+
 QHeaderView::section {
-    background-color: #1f232b; color: #cfd3dc; padding: 8px; border: none; font-weight: bold;
+    background-color: #0a1f44;
+    color: white;
+    padding: 8px;
+    border: none;
+    font-weight: bold;
 }
 
 /* ===============================
-   KARTLAR
+   KARTLAR / FRAME
    =============================== */
 #ResultsFrame, #ManagerFrame {
-    background: qlineargradient( x1:0, y1:0, x2:0, y2:1, stop:0 #3a3f4b, stop:1 #2c313a );
-    border-radius: 15px; padding: 20px; min-width: 900px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    min-width: 900px;
+    border: 1px solid #dde1e8;
 }
+
 QFrame {
-    background-color: #2f3440; border-radius: 15px; padding: 25px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid #dde1e8;
 }
 """
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     
-    app.setStyleSheet(DARK_STYLE_SHEET)
+    app.setStyleSheet(LIGHT_STYLE_SHEET)
     
     window = CargoTrackingApp()
     window.show()
